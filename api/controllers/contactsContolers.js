@@ -55,6 +55,40 @@ const getSingleContacts=(req,res,next)=>{
         console.log(err);
     })
 }
+
+const editContact=(req,res,next)=>{
+    let id= req.params.id
+
+    let updateContact = {
+        name:req.body.name,
+        phone:req.body.phone,
+        email:req.body.email,
+    }
+    Contact.findByIdAndUpdate(id, {$set: updateContact})
+    .then(contact => {
+        Contact.findById(contact._id)
+        .then(newContact =>{
+            res.json({
+                mag:"contact Updata",
+                newContact
+            })
+        }
+        )
+        
+    })
+    .catch(err=>{
+       res.status(500).json({
+
+          msg:"fald",
+          err
+       })
+       console.log(err);
+    })
+}
+
+
+
+
 const deleteSingleContacts=(req,res,next)=>{
     let id=req.params.id
     Contact.findByIdAndRemove(id)
@@ -74,5 +108,6 @@ module.exports={
     getContactController,
     postContactController,
     getSingleContacts,
+    editContact,
     deleteSingleContacts
 }
