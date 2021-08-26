@@ -55,11 +55,24 @@ const getSingleContacts=(req,res,next)=>{
         console.log(err);
     })
 }
+const deleteSingleContacts=(req,res,next)=>{
+    let id=req.params.id
+    Contact.findByIdAndRemove(id)
+    .then(cont=>{
+        res.json({
+            cont
+        })
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+}
 
 
  
 module.exports={
     getContactController,
     postContactController,
-    getSingleContacts
+    getSingleContacts,
+    deleteSingleContacts
 }
